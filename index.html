@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cartinha de Aniversário para Larissa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  body {
+    background: linear-gradient(135deg, #4c2882, #8e44ad);
+    font-family: 'Montserrat', sans-serif;
+    color: #f0e6f7;
+    text-align: center;
+    padding: 1.5rem 1rem 4rem; /* menos espaçamento inferior */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 480px; /* limita largura geral */
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 2rem; /* menor título */
+    margin-bottom: 0.3rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+
+  #instruction {
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    color: #d7c7f4;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* Carta manuscrita compacta */
+  #message {
+    max-width: 400px;
+    margin: 1.5rem auto 2rem;
+    background: #fff8f0;
+    border: 2px solid #d4bfa3;
+    border-radius: 20px;
+    padding: 25px 25px; /* menos padding */
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.3rem; /* fonte um pouco menor */
+    line-height: 1.5;
+    color: #5a3e1b;
+    box-shadow: 4px 6px 15px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+    pointer-events: none;
+    text-align: left;
+    white-space: pre-line;
+  }
+
+  #message.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  button#openBtn {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+    color: #f0e6f7;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(138, 43, 226, 0.8);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  button#openBtn:hover:not(:disabled) {
+    background: linear-gradient(90deg, #bb84f3, #a97adb);
+    box-shadow: 0 12px 28px rgba(187, 132, 243, 0.9);
+  }
+
+  button#openBtn:disabled {
+    background: #6a4f86;
+    cursor: default;
+    box-shadow: none;
+  }
+
+  /* Confetti */
+  #confetti {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 9999;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    border-radius: 3px;
+    opacity: 0.9;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-10px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Player Spotify fixo rodapé */
+  #spotifyPlayer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 420px;
+    height: 80px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.4);
+    overflow: hidden;
+    z-index: 10000;
+    background: #121212;
+    display: none;
+  }
+
+  #spotifyPlayer iframe {
+    width: 100%;
+    height: 80px;
+    border: none;
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding-bottom: 3rem;
+    }
+    #message {
+      max-width: 90vw;
+      font-size: 1.1rem;
+      padding: 20px 20px;
+    }
+    #spotifyPlayer {
+      max-width: 95vw;
+      height: 64px;
+      border-radius: 12px 12px 0 0;
+    }
+    #spotifyPlayer iframe {
+      height: 64px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Feliz Aniversário, Larissaaa!</h1>
+<div id="instruction">Clique no botão abaixo para abrir a carta e ouvir a música especial.</div>
+
+<div id="message" role="region" aria-live="polite">
+  <p>Larissa,</p>
+  <p>Essa cartinha aqui foi feita por pura e espontânea pressão, mas com todo carinho do mundo!!</p>
+  <p>Espero que seu dia seja simplesmente maravilhoso, cheio de coisas boas e risadas.
+  Aproveita muito porque você merece demais!!</p>
+  <p>>Abraços!</p>
+</div>
+
+<button id="openBtn" aria-controls="message" aria-expanded="false">Abrir a carta</button>
+
+<div id="confetti" aria-hidden="true"></div>
+
+<div id="spotifyPlayer" aria-label="Player de música Spotify" role="region" aria-live="polite" aria-atomic="true">
+  <iframe 
+    style="border-radius:12px" 
+    src="https://open.spotify.com/embed/track/51Grh1RyUDcMBbpuyUIUHI?utm_source=generator" 
+    width="100%" 
+    height="80" 
+    frameborder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+    loading="lazy" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+  const openBtn = document.getElementById('openBtn');
+  const message = document.getElementById('message');
+  const confettiContainer = document.getElementById('confetti');
+  const spotifyPlayer = document.getElementById('spotifyPlayer');
+
+  function openLetter() {
+    openBtn.disabled = true;
+    openBtn.style.cursor = 'default';
+    openBtn.setAttribute('aria-expanded', 'true');
+
+    message.classList.add('show');
+    spotifyPlayer.style.display = 'block';
+
+    // Remove o botão após o clique
+    openBtn.style.display = 'none';
+
+    createConfetti(150);
+  }
+
+  openBtn.addEventListener('click', openLetter);
+
+  function createConfetti(amount) {
+    for(let i=0; i<amount; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti-piece');
+      confetti.style.backgroundColor = randomColor();
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.top = -10 + 'px';
+      confetti.style.width = (5 + Math.random() * 8) + 'px';
+      confetti.style.height = (5 + Math.random() * 8) + 'px';
+      confetti.style.animationDuration = (3 + Math.random() * 3) + 's';
+      confetti.style.animationDelay = (Math.random() * 5) + 's';
+
+      confettiContainer.appendChild(confetti);
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 8000);
+    }
+  }
+
+  function randomColor() {
+    const colors = ['#1DB954', '#1ed760', '#17a44d', '#14b358', '#1ed76b'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+</script>
+
+</body>
+</html>
